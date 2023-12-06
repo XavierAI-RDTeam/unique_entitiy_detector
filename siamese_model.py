@@ -11,7 +11,6 @@ import numpy as np
 import os
 import cv2
 
-# In[57]:
 
 
 def l1_distance(inputs):
@@ -28,8 +27,6 @@ def l1_distance_output_shape(shapes):
     return (1,)
 
 
-# In[58]:
-
 
 def siamese_model():
     base_model = BM()
@@ -40,9 +37,6 @@ def siamese_model():
     distance = Lambda(l1_distance, output_shape=l1_distance_output_shape)([feature_vec1, feature_vec2])
     output = Activation('sigmoid')(distance)
     return Model(inputs=[input1, input2], outputs=output)
-
-
-# In[59]:
 
 
 def create_input_pairs(X, labels):
@@ -59,9 +53,6 @@ def create_input_pairs(X, labels):
     return input1, input2, labels
 
 
-# In[60]:
-
-
 def load_data():
     filenames = os.listdir('./datasets/mars/')
     x = np.array([cv2.imread(os.path.join(os.path.abspath('./datasets/mars/'), filename)) for filename in filenames])
@@ -70,9 +61,6 @@ def load_data():
     x = x[idx]
     labels = np.sort(labels)
     return x[:100], labels[:100]
-
-
-# In[55]:
 
 
 if __name__ == '__main__':
