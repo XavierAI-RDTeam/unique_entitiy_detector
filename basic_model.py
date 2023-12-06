@@ -72,8 +72,8 @@ def base_model():
 
 def load_data():
 
-    filenames = os.listdir('./datasets/cuhk01/')
-    x = np.array([cv2.imread(os.path.join(os.path.abspath('./datasets/cuhk01/'), filename)) for filename in filenames])
+    filenames = os.listdir('./datasets/mars/')
+    x = np.array([cv2.imread(os.path.join(os.path.abspath('./datasets/mars/'), filename)) for filename in filenames])
     labels = np.array([int(filename[:4]) for filename in filenames])
     return x, to_categorical(labels)
 
@@ -89,7 +89,7 @@ def get_feature_vec(model, x, labels):
 
 def cos_sim(model, feature_vec, labels, filename):
 
-    image = np.array(cv2.imread(os.path.join(os.paht.abspath('./datasets/cuhk01/'), filename)))
+    image = np.array(cv2.imread(os.path.join(os.paht.abspath('./datasets/mars/'), filename)))
     input_feature_vec = model.predict(np.expand_dims(image, axis=0))
     similarity = np.sum(feature_vec * input_feature_vec, axis=1)
     similarity = similarity / np.linalg.norm(feature_vec, axis=1)
