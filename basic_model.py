@@ -1,7 +1,7 @@
 from keras.models import Sequential, Model
 from keras.layers import Dense, Conv2D, MaxPool2D, Activation, BatchNormalization, Flatten, InputLayer
 from keras.utils import to_categorical
-from keras.optimizers import SGD
+from keras.optimizers.legacy import SGD
 import os
 import cv2
 import numpy as np
@@ -63,7 +63,7 @@ def base_model():
         Flatten(),
         Dense(4096, activation='relu'),
         Dense(4096, activation='relu'),
-        Dense(972, activation='relu')
+        Dense(22, activation='relu')
     ])
 #    model.summary()
 
@@ -71,11 +71,11 @@ def base_model():
 
 
 def load_data():
-
     filenames = os.listdir('./datasets/mars/')
     x = np.array([cv2.imread(os.path.join(os.path.abspath('./datasets/mars/'), filename)) for filename in filenames])
+    x_resized = np.array([cv2.resize(img, (60, 160)) for img in x])  # Resize images to (160, 60)
     labels = np.array([int(filename[:4]) for filename in filenames])
-    return x, to_categorical(labels)
+    return x_resized, to_categorical(labels)
 
 
 def get_feature_vec(model, x, labels):
@@ -99,7 +99,6 @@ def cos_sim(model, feature_vec, labels, filename):
 
 
 if __name__ == '__main__':
-
     model = base_model()
     x, labels = load_data()
     print(x.shape)
