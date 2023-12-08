@@ -1,7 +1,7 @@
 from keras.models import Sequential, Model
 from keras.layers import Dense, Conv2D, MaxPool2D, Activation, BatchNormalization, Flatten, InputLayer
 from keras.utils import to_categorical
-from keras.optimizers import SGD
+from keras.optimizers.legacy import SGD
 import os
 import cv2
 import numpy as np
@@ -89,7 +89,7 @@ def get_feature_vec(model, x, labels):
 
 def cos_sim(model, feature_vec, labels, filename):
 
-    image = np.array(cv2.imread(os.path.join(os.path.abspath('./datasets/mars/'), filename)))
+    image = np.array(cv2.imread(os.path.join(os.paht.abspath('./datasets/mars/'), filename)))
     input_feature_vec = model.predict(np.expand_dims(image, axis=0))
     similarity = np.sum(feature_vec * input_feature_vec, axis=1)
     similarity = similarity / np.linalg.norm(feature_vec, axis=1)
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     x, labels = load_data()
     print(x.shape)
     print(labels.shape)
-    sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+    sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(loss='categorical_crossentropy', optimizer=sgd)
-    model.fit(x, labels, batch_size=50, epochs=500)
+    model.fit(x, labels, batch_size=50, epochs=10)
     model.save_weights('model.h5py')
