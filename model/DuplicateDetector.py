@@ -174,3 +174,4 @@ class DuplicateDetector:
 
     def detect(self, newFrame, oldFrame):
         # write detection
+        print("running detect")
