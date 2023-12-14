@@ -8,10 +8,10 @@ from keras.utils import to_categorical
 from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint, TensorBoard
 
-from metrics import l1_distance, l1_distance_output_shape
+from Metrics import l1_distance, l1_distance_output_shape
 from itertools import combinations
 
-class DuplicateDetectorTrainer:
+class DuplicateDetector:
     def __init__(self):
         self.filenames          = os.listdir('./datasets/mars/')
         self.gradientOptimizer  = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
@@ -117,7 +117,7 @@ class DuplicateDetectorTrainer:
 
         return input1, input2, labels
     
-    def trainBaseModel(self):
+    def trainCoreNetwork(self):
         x, labels = self.load_data()
 
         model = self.coreNetwork()
@@ -131,7 +131,7 @@ class DuplicateDetectorTrainer:
 
         model.save_weights('model.h5py')
 
-    def trainExtendedModel(self):
+    def trainExtendedNetwork(self):
         input1, input2, labels  = self.load_data_pairs()
 
         model                   = self.extendedNetwork()
@@ -166,3 +166,11 @@ class DuplicateDetectorTrainer:
                   validation_split=0.2, 
                   callbacks=[callbackCheckpoint, callbackTensorBoard]
                   )
+        
+
+    def train(self):
+        self.trainCoreNetwork()
+        self.trainExtendedNetwork()
+
+    def detect(self, newFrame, oldFrame):
+        # write detection

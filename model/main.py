@@ -1,7 +1,6 @@
-from DuplicateDetectorTrainer import DuplicateDetectorTrainer
+from DuplicateDetector import DuplicateDetector
 
 if __name__ == '__main__':
-    trainer = DuplicateDetectorTrainer()
+    network = DuplicateDetector()
 
-    trainer.trainBaseModel()
-    trainer.trainExtendedModel()
+    network.train()
